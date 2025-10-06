@@ -3,18 +3,16 @@ import React from "react";
 class GradeInput extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { name: "", score: "" };
+        this.state = { name: "", score: "", loading: false, message: "" };
     }
 
-    componentDidMount() {
-        console.log("GradeInput mounted ✅");
-    }
-
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
         if (!this.state.name || !this.state.score) return;
-        this.props.onAdd(this.state.name, parseInt(this.state.score));
-        this.setState({ name: "", score: "" });
+
+        this.setState({ loading: true, message: "" });
+        await this.props.onAdd(this.state.name, parseInt(this.state.score)); // handled in App.jsx
+        this.setState({ name: "", score: "", loading: false, message: "Student added successfully!" });
     };
 
     render() {
@@ -34,11 +32,15 @@ class GradeInput extends React.Component {
                         value={this.state.score}
                         onChange={(e) => this.setState({ score: e.target.value })}
                     />
-                    <button type="submit">Add</button>
+                    <button type="submit" disabled={this.state.loading}>
+                        {this.state.loading ? "Adding..." : "Add"}
+                    </button>
                 </form>
+                {this.state.message && <p style={{ color: "green" }}>{this.state.message}</p>}
             </>
         );
     }
 }
+
 
 export default GradeInput;
