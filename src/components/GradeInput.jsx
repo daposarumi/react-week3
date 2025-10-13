@@ -16,8 +16,7 @@ export default function GradeInput({ onAdd }) {
         setLoading(true);
         setMessage("");
 
-        await onAdd(name, score); // handled in App.jsx / custom hook
-
+        await onAdd(name, score);
         nameRef.current.value = "";
         scoreRef.current.value = "";
         setLoading(false);
