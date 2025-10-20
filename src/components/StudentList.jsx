@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function StudentList({ students, showScores, onDelete, onUpdate }) {
+export default function StudentList({ students, showScores, onDelete }) {
     const withGrades = students.map((s) => {
         let grade;
         if (s.score >= 70) grade = "A";
@@ -17,29 +17,6 @@ export default function StudentList({ students, showScores, onDelete, onUpdate }
                     <li key={s.id}>
                         {s.name}
                         {showScores && ` — Score: ${s.score}, Grade: ${s.grade}`}
-
-                        {/* Edit button */}
-                        <button
-                            onClick={() => {
-                                const newScore = prompt(`Enter new score for ${s.name}:`, s.score);
-                                if (newScore && !isNaN(newScore)) {
-                                    onUpdate(s.id, { score: parseInt(newScore) });
-                                }
-                            }}
-                            style={{
-                                marginLeft: "10px",
-                                background: "#ffc107",
-                                color: "black",
-                                border: "none",
-                                padding: "5px 8px",
-                                borderRadius: "4px",
-                                cursor: "pointer",
-                            }}
-                        >
-                            Edit
-                        </button>
-
-                        {/* Delete button */}
                         <button
                             onClick={() => onDelete(s.id)}
                             style={{
