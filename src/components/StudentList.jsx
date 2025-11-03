@@ -1,37 +1,60 @@
-import React from "react";
+import {
+    Card,
+    CardContent,
+    Typography,
+    List,
+    ListItem,
+    Button,
+    Stack,
+} from "@mui/material";
 
 export default function StudentList({ students, showScores, onDelete, onEdit }) {
-    const withGrades = students.map(s => {
-        let grade;
+    const withGrades = students.map((s) => {
+        let grade = "F";
         if (s.score >= 70) grade = "A";
         else if (s.score >= 40) grade = "C";
-        else grade = "F";
         return { ...s, grade };
     });
 
     return (
-        <>
-            <h2>Students</h2>
-            <ol>
-                {withGrades.map(s => (
-                    <li key={s.id}>
-                        {s.name}
-                        {showScores && ` — Score: ${s.score}, Grade: ${s.grade}`}
-                        <button
-                            onClick={() => onEdit(s)}
-                            style={{ marginLeft: "10px", background: "#ffc107", color: "white", border: "none", padding: "5px 8px", borderRadius: "4px", cursor: "pointer" }}
+        <Card sx={{ mb: 3 }}>
+            <CardContent>
+                <Typography variant="h5" gutterBottom>
+                    Students
+                </Typography>
+                <List>
+                    {withGrades.map((s) => (
+                        <ListItem
+                            key={s.id}
+                            secondaryAction={
+                                <Stack direction="row" spacing={1}>
+                                    <Button
+                                        variant="outlined"
+                                        color="error"
+                                        size="small"
+                                        onClick={() => onDelete(s.id)}
+                                    >
+                                        Delete
+                                    </Button>
+                                    <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        size="small"
+                                        onClick={() => onEdit(s)}
+                                    >
+                                        Edit
+                                    </Button>
+                                </Stack>
+                            }
                         >
-                            Edit
-                        </button>
-                        <button
-                            onClick={() => onDelete(s.id)}
-                            style={{ marginLeft: "10px", background: "#dc3545", color: "white", border: "none", padding: "5px 8px", borderRadius: "4px", cursor: "pointer" }}
-                        >
-                            Delete
-                        </button>
-                    </li>
-                ))}
-            </ol>
-        </>
+                            <Typography>
+                                {s.name}
+                                {showScores && ` — Score: ${s.score}, Grade: ${s.grade}`}
+                            </Typography>
+                        </ListItem>
+                    ))}
+                </List>
+            </CardContent>
+        </Card>
     );
 }

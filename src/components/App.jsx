@@ -6,7 +6,7 @@ import {
   deleteStudent,
   updateStudent,
   setEditingStudent,
-} from "./studentSlice";
+} from "../../src/studentSlice";
 import StudentList from "./StudentList";
 import GradeInput from "./GradeInput";
 import "../../src/styles.css";
@@ -23,8 +23,10 @@ export default function App() {
   if (loading) return <p>Loading students...</p>;
 
   return (
-    <div className="container">
-      <h1>Student Scoreboard</h1>
+    <Container maxWidth="sm">
+      <Typography variant="h3" gutterBottom>
+        Student Scoreboard
+      </Typography>
 
       <StudentList
         students={students}
@@ -33,15 +35,21 @@ export default function App() {
         onEdit={(student) => dispatch(setEditingStudent(student))}
       />
 
-      <button onClick={() => setShowScores(!showScores)}>
-        {showScores ? "Hide Scores & Grades" : "Reveal Scores & Grades"}
-      </button>
+      <Box mt={2}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => setShowScores(!showScores)}
+        >
+          {showScores ? "Hide Scores & Grades" : "Reveal Scores & Grades"}
+        </Button>
+      </Box>
 
       <GradeInput
         onAdd={(name, score) => dispatch(addStudent({ name, score }))}
         onUpdate={(id, updatedStudent) => dispatch(updateStudent({ id, updatedStudent }))}
         editingStudent={editingStudent}
       />
-    </div>
+    </Container>
   );
 }
